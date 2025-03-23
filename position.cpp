@@ -1,6 +1,7 @@
 #include "position.h"
 #include <stdexcept>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ bool Position::isWall()  {
 }
 
 string Position::to_string()  {
-  throw runtime_error("Not yet implemented: {Position::isWall");
-  // clarify what to do here - spec is unclear
+        std::ostringstream oss;
+        oss << xPos << "," << yPos;
+        return oss.str();
 }
