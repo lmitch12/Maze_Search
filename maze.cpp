@@ -51,11 +51,11 @@ int Maze::getHeight() {
 }
 
 bool Maze::isWall(int x, int y) {
-  throw runtime_error("Not yet implemented: Maze::isWall");
+  return positions[y][x]->isWall();
 }
 
 void Maze::setWall(int x, int y) {
-  throw runtime_error("Not yet implemented: Maze::setWall");
+    positions[y][x]->setWall();
 }
 
 vector<Position*> Maze::solveBreadthFirst() {
