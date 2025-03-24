@@ -77,5 +77,29 @@ vector<Position*> Maze::solveDepthFirst() {
 }
 
 vector<Position*> Maze::getNeighbors(Position* position) {
-  throw runtime_error("Not yet implemented: Maze::getNeighbors");
+    std::vector<Position*> neighbors;
+    int x = position->getX();
+    int y = position->getY();
+
+    int width = positions[0][0]->getY();
+    int height = positions[0][0]->getX();
+
+    // up
+    if (y > 0 && !positions[y - 1][x]->isWall()) {
+        neighbors.push_back(positions[y - 1][x]);
+    }
+    // left
+    if (x > 0 && !positions[y][x - 1]->isWall()) {
+        neighbors.push_back(positions[y][x - 1]);
+    }
+    // right
+    if (x < width - 1 && !positions[y][x + 1]->isWall()) {
+        neighbors.push_back(positions[y][x + 1]);
+    }
+    // down
+    if (y < height - 1 && !positions[y + 1][x]->isWall()) {
+        neighbors.push_back(positions[y + 1][x]);
+    }
+
+    return neighbors;
 }
