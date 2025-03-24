@@ -21,7 +21,7 @@ Maze::Maze(int width, int height) {
     for (int i = 0; i < height; ++i) {
         positions[i] = new Position *[width];
         for (int j = 0; j < width; ++j) {
-            positions[i][j] = new Position(j, i); // Initialize each position
+            positions[i][j] = new Position(j, i);
         }
     }
 }
