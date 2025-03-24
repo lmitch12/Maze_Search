@@ -30,15 +30,14 @@ Maze::~Maze() {
     int mazeHeight = positions[0][0]->getX();
 
     for (int i = 0; i < mazeHeight; ++i) {
-        // Use the width from any Position in row 0 (e.g., (0,0)) to determine the columns.
         int mazeWidth = positions[0][0]->getY();
 
         for (int j = 0; j < mazeWidth; ++j) {
-            delete positions[i][j]; // Delete each Position object
+            delete positions[i][j];
         }
-        delete[] positions[i]; // Delete the array of pointers for the row
+        delete[] positions[i];
     }
-    delete[] positions; // Delete the outer array of row pointers
+    delete[] positions;
 }
 
 int Maze::getWidth() {
