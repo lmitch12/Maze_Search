@@ -64,7 +64,43 @@ vector<Position*> Maze::solveBreadthFirst() {
    * the associated value should be a pointer to the Position from which
    * you saw the key
    */
-  throw runtime_error("Not yet implemented: Maze::solveBreadthFirst");
+    std::queue<Position*> queue;
+    std::unordered_map<string, Position*> previous; // key (current (x,y), previous
+    std::vector<Position*> path;
+
+    int height = getHeight();
+    int width = getWidth();
+
+    // Start at (0,0)
+    Position* start = positions[0][0];
+    queue.push(start);
+    previous[start->to_string()] = nullptr; // No previous position for the start
+
+    while (!queue.empty()) {
+        Position* current = queue.front();
+        queue.pop();
+
+        // Check if we've reached the bottom-right corner
+        if (current == positions[height - 1][width - 1]) {
+            // Reconstruct the path
+            Position* step = current;
+            while (step != nullptr) {
+                path.insert(path.begin(), step); // Add steps to the start of the path
+                step = previous[step->to_string()]; // Follow breadcrumbs
+            }
+            return path;
+        }
+
+        // Explore neighbors
+        for (Position* neighbor : getNeighbors(current)) {
+            if (previous.find(neighbor->to_string()) == previous.end()) { // Not visited
+                queue.push(neighbor);
+                previous[neighbor->to_string()] = current; // Track previous position
+            }
+        }
+    }
+
+    return {};
 }
 
 vector<Position*> Maze::solveDepthFirst() {
@@ -73,7 +109,37 @@ vector<Position*> Maze::solveDepthFirst() {
    * the associated value should be a pointer to the Position from which
    * you saw the key
    */
-  throw runtime_error("Not yet implemented: Maze::solveDepthFirst");
+    std::stack<Position*> stack;                              // Stack to manage DFS exploration
+    std::unordered_map<std::string, Position*> previous;      // Tracks breadcrumbs (visited positions)
+    std::vector<Position*> path;                              // Final path to be returned
+
+    // Starting position (top-left corner)
+    Position* start = positions[0][0];
+    stack.push(start);
+    previous[start->to_string()] = nullptr;
+
+    while (!stack.empty()) {
+        Position* current = stack.top();
+        stack.pop();
+
+        // check if reached goal
+        if (current == positions[getHeight() - 1][getWidth() - 1]) {
+            Position* step = current;
+            while (step != nullptr) {
+                path.insert(path.begin(), step); // add to start of path
+                step = previous[step->to_string()];
+            }
+            return path; // Return the full path from start to goal
+        }
+        for (Position* neighbor : getNeighbors(current)) {
+            if (previous.find(neighbor->to_string()) == previous.end()) { // if  neighbor not  visited
+                stack.push(neighbor); // add neighbor to stack
+                previous[neighbor->to_string()] = current;
+            }
+        }
+    }
+    // else, return an empty vector
+    return {};
 }
 
 vector<Position*> Maze::getNeighbors(Position* position) {
