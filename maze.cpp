@@ -13,25 +13,42 @@
  */
 
 #include "maze.h"
-#include "myDictionary.h" // wtf is this
-
+#include "myDictionary.h"
 using namespace std;
 
 Maze::Maze(int width, int height) {
-  positions[width][height];
-  // not sure why height is unused
+    positions = new Position **[height];
+    for (int i = 0; i < height; ++i) {
+        positions[i] = new Position *[width];
+        for (int j = 0; j < width; ++j) {
+            positions[i][j] = new Position(j, i); // Initialize each position
+        }
+    }
 }
 
 Maze::~Maze() {
-  throw runtime_error("Not yet implemented: Maze::~Maze");
+    int mazeHeight = positions[0][0]->getX();
+
+    for (int i = 0; i < mazeHeight; ++i) {
+        // Use the width from any Position in row 0 (e.g., (0,0)) to determine the columns.
+        int mazeWidth = positions[0][0]->getY();
+
+        for (int j = 0; j < mazeWidth; ++j) {
+            delete positions[i][j]; // Delete each Position object
+        }
+        delete[] positions[i]; // Delete the array of pointers for the row
+    }
+    delete[] positions; // Delete the outer array of row pointers
 }
 
 int Maze::getWidth() {
-    throw runtime_error("Not yet implemented: Maze::~Maze");
+    int mazeWidth = positions[0][0]->getY();
+    return mazeWidth;
 }
 
 int Maze::getHeight() {
-  throw runtime_error("Not yet implemented: Maze::getHeight");
+    int mazeHeight = positions[0][0]->getX();
+    return mazeHeight;
 }
 
 bool Maze::isWall(int x, int y) {
